@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoWS Builds - Admin Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0a1628;
+            --bg-secondary: #111f36;
+            --bg-card: #162038;
+            --bg-input: #1a2744;
+            --border: #253553;
+            --accent: #d4a843;
+            --accent-hover: #e6bc5a;
+            --text-primary: #e8e6e0;
+            --text-secondary: #8b9bb4;
+            --text-muted: #5a6a82;
+            --success: #4caf50;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --destroyer: #d4a843;
+            --cruiser: #4fc3f7;
+            --battleship: #e57373;
+            --carrier: #81c784;
+            --submarine: #ba68c8;
+            --radius: 6px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ===== LOGIN ===== */
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2744 100%);
+        }
+        .login-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: var(--shadow);
+        }
+        .login-box h1 {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .login-box .subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .login-box .logo {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+        }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #0a1628;
+        }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-success:hover { background: #43a047; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        .btn-block { width: 100%; justify-content: center; }
+
+        .alert {
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .alert-error { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+        .alert-success { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+
+        /* ===== LAYOUT ===== */
+        .app { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 240px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .sidebar-header h2 {
+            color: var(--accent);
+            font-size: 18px;
+        }
+        .sidebar-header .version {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+        .sidebar-nav { flex: 1; padding: 12px 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(212,168,67,0.05);
+        }
+        .nav-item.active {
+            color: var(--accent);
+            background: rgba(212,168,67,0.1);
+            border-left-color: var(--accent);
+        }
+        .nav-item .icon { font-size: 18px; width: 24px; text-align: center; }
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .sidebar-footer .user-info {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .sidebar-footer .logout-btn {
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 12px;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .sidebar-footer .logout-btn:hover { text-decoration: underline; }
+
+        .main {
+            flex: 1;
+            margin-left: 240px;
+            padding: 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 24px; }
+
+        /* ===== DASHBOARD STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-card .stat-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .card-header h3 { font-size: 16px; }
+
+        /* ===== TABLE ===== */
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:hover { background: rgba(255,255,255,0.02); }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-published { background: rgba(76,175,80,0.2); color: var(--success); }
+        .badge-draft { background: rgba(243,156,18,0.2); color: var(--warning); }
+        .badge-archived { background: rgba(139,155,180,0.2); color: var(--text-secondary); }
+        .badge-admin { background: rgba(212,168,67,0.2); color: var(--accent); }
+        .badge-editor { background: rgba(52,152,219,0.2); color: var(--info); }
+        .badge-destroyer { background: rgba(212,168,67,0.2); color: var(--destroyer); }
+        .badge-cruiser { background: rgba(79,195,247,0.2); color: var(--cruiser); }
+        .badge-battleship { background: rgba(229,115,115,0.2); color: var(--battleship); }
+        .badge-carrier { background: rgba(129,199,132,0.2); color: var(--carrier); }
+        .badge-submarine { background: rgba(186,104,200,0.2); color: var(--submarine); }
+
+        /* ===== BUILD CREATOR ===== */
+        .builder-steps {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .step-indicator {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .step-indicator.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(212,168,67,0.1);
+        }
+        .step-indicator.completed {
+            border-color: var(--success);
+            color: var(--success);
+        }
+        .step-indicator .step-num {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .ship-search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .ship-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ship-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+        .ship-card.selected {
+            border-color: var(--accent);
+            background: rgba(212,168,67,0.1);
+        }
+        .ship-card .ship-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .ship-card .ship-info {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .ship-card .ship-tier {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+            max-height: 520px;
+            overflow-y: auto;
+        }
+        .skill-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 8px 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 11px;
+            position: relative;
+        }
+        .skill-item:hover { border-color: var(--accent); }
+        .skill-item.selected {
+            border-color: var(--accent);
+            background: rgba(212,168,67,0.15);
+        }
+        .skill-item .skill-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 4px;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+        }
+        .skill-item.locked .skill-icon { filter: grayscale(1) opacity(0.4); }
+        .skill-item .skill-icon-placeholder {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 4px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .skill-item .skill-tier-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            font-size: 10px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-item.selected .skill-tier-badge {
+            background: var(--success);
+        }
+        .skill-item .skill-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .selected-skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-input);
+            border-radius: var(--radius);
+            min-height: 44px;
+        }
+        .selected-skill-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(212,168,67,0.2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .selected-skill-tag .order-num {
+            background: var(--accent);
+            color: var(--bg-primary);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .selected-skill-tag .remove {
+            cursor: pointer;
+            margin-left: 4px;
+            opacity: 0.7;
+        }
+        .selected-skill-tag .remove:hover { opacity: 1; }
+
+        .points-counter {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .points-counter.over { color: var(--danger); }
+
+        /* Modules */
+        .module-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        .module-slot {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+        .module-slot h4 {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .module-option {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .module-option:hover { border-color: var(--accent); }
+        .module-option.selected {
+            border-color: var(--accent);
+            background: rgba(212,168,67,0.1);
+        }
+
+        /* Upgrade slot columns */
+        .upgrade-slot-col {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .upgrade-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 4px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upgrade-option:hover {
+            border-color: var(--accent);
+            background: rgba(212,168,67,0.05);
+        }
+        .upgrade-option.selected {
+            border-color: var(--accent);
+            background: rgba(212,168,67,0.15);
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar input, .filter-bar select {
+            width: auto;
+            min-width: 160px;
+        }
+
+        .builder-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+        .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .hidden { display: none !important; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar { width: 60px; }
+            .sidebar .nav-text, .sidebar-header h2, .sidebar-header .version,
+            .sidebar-footer .user-info { display: none; }
+            .main { margin-left: 60px; }
+            .nav-item { justify-content: center; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="login-page" class="login-wrapper">
+        <div class="login-box">
+            <div class="logo">&#9875;</div>
+            <h1>Captain Builds</h1>
+            <p class="subtitle">Admin Dashboard</p>
+            <div id="login-error" class="alert alert-error hidden"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="login-username" placeholder="Enter username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app" class="app hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>&#9875; Captain Builds</h2>
+                <span class="version">Admin Panel v1.0</span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-page="dashboard">
+                    <span class="icon">&#9635;</span>
+                    <span class="nav-text">Dashboard</span>
+                </div>
+                <div class="nav-item" data-page="create-build">
+                    <span class="icon">&#10010;</span>
+                    <span class="nav-text">Create Build</span>
+                </div>
+                <div class="nav-item" data-page="manage-builds">
+                    <span class="icon">&#9776;</span>
+                    <span class="nav-text">Manage Builds</span>
+                </div>
+                <div class="nav-item" data-page="users" id="nav-users">
+                    <span class="icon">&#9823;</span>
+                    <span class="nav-text">Users</span>
+                </div>
+                <div class="nav-item" data-page="audit">
+                    <span class="icon">&#128221;</span>
+                    <span class="nav-text">Audit Log</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info" id="user-display"></div>
+                <button class="logout-btn" onclick="logout()">Sign Out</button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <!-- DASHBOARD PAGE -->
+            <div id="page-dashboard" class="page">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <button class="btn btn-secondary btn-sm" onclick="loadDashboard()">Refresh</button>
+                </div>
+                <div class="stats-grid" id="stats-grid"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Builds</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr><th>Title</th><th>Ship</th><th>Status</th><th>Author</th><th>Updated</th></tr>
+                        </thead>
+                        <tbody id="recent-builds-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CREATE BUILD PAGE -->
+            <div id="page-create-build" class="page hidden">
+                <div class="page-header">
+                    <h1>Create Build</h1>
+                </div>
+
+                <div class="builder-steps">
+                    <div class="step-indicator active" data-step="1" onclick="goToStep(1)">
+                        <span class="step-num">1</span>Select Ship
+                    </div>
+                    <div class="step-indicator" data-step="2" onclick="goToStep(2)">
+                        <span class="step-num">2</span>Captain Skills
+                    </div>
+                    <div class="step-indicator" data-step="3" onclick="goToStep(3)">
+                        <span class="step-num">3</span>Modules
+                    </div>
+                    <div class="step-indicator" data-step="4" onclick="goToStep(4)">
+                        <span class="step-num">4</span>Details & Publish
+                    </div>
+                </div>
+
+                <!-- Step 1: Ship Selection -->
+                <div id="step-1" class="builder-step">
+                    <div class="filter-bar">
+                        <input type="text" id="ship-search" placeholder="Search ships..." oninput="filterShips()">
+                        <select id="ship-tier-filter" onchange="filterShips()">
+                            <option value="">All Tiers</option>
+                            <option value="1">I</option><option value="2">II</option>
+                            <option value="3">III</option><option value="4">IV</option>
+                            <option value="5">V</option><option value="6">VI</option>
+                            <option value="7">VII</option><option value="8">VIII</option>
+                            <option value="9">IX</option><option value="10">X</option>
+                            <option value="11">XI</option>
+                        </select>
+                        <select id="ship-type-filter" onchange="filterShips()">
+                            <option value="">All Types</option>
+                            <option value="Destroyer">Destroyer</option>
+                            <option value="Cruiser">Cruiser</option>
+                            <option value="Battleship">Battleship</option>
+                            <option value="AirCarrier">Aircraft Carrier</option>
+                            <option value="Submarine">Submarine</option>
+                        </select>
+                        <select id="ship-nation-filter" onchange="filterShips()">
+                            <option value="">All Nations</option>
+                        </select>
+                    </div>
+                    <div class="ship-search-grid" id="ship-grid">
+                        <div class="loading"><div class="spinner"></div><br>Loading ships...</div>
+                    </div>
+                    <div class="builder-nav">
+                        <div></div>
+                        <button class="btn btn-primary" onclick="goToStep(2)" id="btn-step2" disabled>Next: Captain Skills &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Captain Skills -->
+                <div id="step-2" class="builder-step hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Selected Skills</h3>
+                            <div>Points: <span class="points-counter" id="skill-points">0</span> / 21</div>
+                        </div>
+                        <div class="selected-skills-list" id="selected-skills-list">
+                            <span style="color:var(--text-muted);font-size:13px;">Click skills below to add them in pick order</span>
+                        </div>
+                    </div>
+                    <div class="filter-bar" style="margin-top:16px;">
+                        <input type="text" id="skill-search" placeholder="Search skills..." oninput="filterSkills()">
+                        <select id="skill-tier-filter" onchange="filterSkills()">
+                            <option value="">All Tiers</option>
+                            <option value="1">Tier 1 — 1pt</option>
+                            <option value="2">Tier 2 — 2pts</option>
+                            <option value="3">Tier 3 — 3pts</option>
+                            <option value="4">Tier 4 — 4pts</option>
+                        </select>
+                    </div>
+                    <div class="skills-grid" id="skills-grid">
+                        <div class="loading"><div class="spinner"></div><br>Loading skills...</div>
+                    </div>
+                    <div class="builder-nav">
+                        <button class="btn btn-secondary" onclick="goToStep(1)">&larr; Back: Select Ship</button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">Next: Modules &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Upgrades/Modernizations -->
+                <div id="step-3" class="builder-step hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Upgrades (Modernizations)</h3>
+                            <span id="upgrades-summary" style="font-size:13px;color:var(--text-secondary);"></span>
+                        </div>
+                        <div id="upgrades-grid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:0 4px;">
+                            <div class="loading" style="grid-column:1/-1;"><div class="spinner"></div><br>Loading upgrades...</div>
+                        </div>
+                    </div>
+                    <div class="builder-nav">
+                        <button class="btn btn-secondary" onclick="goToStep(2)">&larr; Back: Captain Skills</button>
+                        <button class="btn btn-primary" onclick="goToStep(4)">Next: Details &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Details & Publish -->
+                <div id="step-4" class="builder-step hidden">
+                    <div class="card">
+                        <div class="card-header"><h3>Build Details</h3></div>
+                        <div class="form-group">
+                            <label>Build Title *</label>
+                            <input type="text" id="build-title" placeholder="e.g. Competitive Ranked Build">
+                        </div>
+                        <div class="form-group">
+                            <label>How to Play / Description</label>
+                            <textarea id="build-description" rows="4" placeholder="Describe the general playstyle for this build..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Play Style Notes</label>
+                            <textarea id="build-playstyle" rows="3" placeholder="Specific tips on how to play with this build..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Alternative Notes</label>
+                            <textarea id="build-alternatives" rows="3" placeholder="Alternative skill/module choices and when to use them..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (comma separated)</label>
+                            <input type="text" id="build-tags" placeholder="e.g. ranked, competitive, beginner-friendly">
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <div class="card-header"><h3>Build Summary</h3></div>
+                        <div id="build-summary"></div>
+                    </div>
+
+                    <div id="publish-error" class="alert alert-error hidden" style="margin-top:16px;"></div>
+                    <div id="publish-success" class="alert alert-success hidden" style="margin-top:16px;"></div>
+
+                    <div class="builder-nav">
+                        <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Back: Modules</button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-secondary" onclick="saveBuild('draft')">Save as Draft</button>
+                            <button class="btn btn-success" onclick="saveBuild('published')">Publish Build</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANAGE BUILDS PAGE -->
+            <div id="page-manage-builds" class="page hidden">
+                <div class="page-header">
+                    <h1>Manage Builds</h1>
+                    <button class="btn btn-primary btn-sm" onclick="navigate('create-build')">+ New Build</button>
+                </div>
+                <div class="filter-bar">
+                    <select id="manage-status-filter" onchange="loadBuilds()">
+                        <option value="">All Status</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                    <input type="text" id="manage-search" placeholder="Search builds..." oninput="loadBuilds()">
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr><th>Title</th><th>Ship</th><th>Type</th><th>Status</th><th>Views</th><th>Author</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="builds-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- USERS PAGE (admin only) -->
+            <div id="page-users" class="page hidden">
+                <div class="page-header">
+                    <h1>User Management</h1>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr><th>Username</th><th>Display Name</th><th>Email</th><th>Role</th><th>Last Login</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="users-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AUDIT LOG PAGE -->
+            <div id="page-audit" class="page hidden">
+                <div class="page-header">
+                    <h1>Audit Log</h1>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr><th>Time</th><th>User</th><th>Action</th><th>Type</th><th>Details</th></tr>
+                        </thead>
+                        <tbody id="audit-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API = 'http://localhost:3000/api';
+        let token = localStorage.getItem('wows_token');
+        let currentUser = null;
+        let shipsData = [];
+        let skillsData = [];
+        let upgradesData = [];
+
+        // Build state
+        let buildState = {
+            ship: null,
+            skills: [],
+            modules: {},
+            upgrades: [],
+            step: 1
+        };
+
+        // ===== AUTH =====
+        async function apiCall(endpoint, options = {}) {
+            const headers = { 'Content-Type': 'application/json', ...options.headers };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            const res = await fetch(`${API}${endpoint}`, { ...options, headers });
+            if (res.status === 401) { logout(); throw new Error('Unauthorized'); }
+            return res;
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            errorEl.classList.add('hidden');
+
+            try {
+                const res = await fetch(`${API}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+
+                token = data.token;
+                currentUser = data.user;
+                localStorage.setItem('wows_token', token);
+                showApp();
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.classList.remove('hidden');
+            }
+        });
+
+        function logout() {
+            token = null;
+            currentUser = null;
+            localStorage.removeItem('wows_token');
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('app').classList.add('hidden');
+        }
+
+        async function showApp() {
+            if (!currentUser) {
+                try {
+                    const res = await apiCall('/auth/me');
+                    currentUser = await res.json();
+                } catch { return logout(); }
+            }
+
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            document.getElementById('user-display').textContent = `${currentUser.display_name} (${currentUser.role})`;
+
+            // Hide admin-only nav for editors
+            if (currentUser.role !== 'admin') {
+                document.getElementById('nav-users').classList.add('hidden');
+            }
+
+            loadDashboard();
+            loadShipsData();
+        }
+
+        // ===== NAVIGATION =====
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.remove('hidden');
+            document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+
+            if (page === 'manage-builds') loadBuilds();
+            if (page === 'users') loadUsers();
+            if (page === 'audit') loadAudit();
+            if (page === 'create-build') resetBuilder();
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => navigate(item.dataset.page));
+        });
+
+        // ===== DASHBOARD =====
+        async function loadDashboard() {
+            try {
+                const res = await apiCall('/admin/stats');
+                const stats = await res.json();
+
+                document.getElementById('stats-grid').innerHTML = `
+                    <div class="stat-card"><div class="stat-value">${stats.publishedBuilds}</div><div class="stat-label">Published Builds</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.draftBuilds}</div><div class="stat-label">Draft Builds</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">Users</div></div>
+                    <div class="stat-card"><div class="stat-value">${stats.totalViews.toLocaleString()}</div><div class="stat-label">Total Views</div></div>
+                    ${stats.buildsByCategory.map(c => `
+                        <div class="stat-card"><div class="stat-value">${c.count}</div><div class="stat-label">${c.name} Builds</div></div>
+                    `).join('')}
+                `;
+
+                const tbody = document.getElementById('recent-builds-table');
+                if (stats.recentBuilds.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">No builds yet. Create your first build!</td></tr>';
+                } else {
+                    tbody.innerHTML = stats.recentBuilds.map(b => `
+                        <tr>
+                            <td>${escHtml(b.title)}</td>
+                            <td>${escHtml(b.ship_name)}</td>
+                            <td><span class="badge badge-${b.status}">${b.status}</span></td>
+                            <td>${escHtml(b.author)}</td>
+                            <td>${formatDate(b.updated_at)}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Dashboard error:', err);
+            }
+        }
+
+        // ===== SHIPS DATA =====
+        async function loadShipsData() {
+            try {
+                const res = await apiCall('/ships');
+                shipsData = await res.json();
+                if (Array.isArray(shipsData)) {
+                    // Populate nation filter
+                    const nations = [...new Set(shipsData.map(s => s.nation).filter(Boolean))].sort();
+                    const nationFilter = document.getElementById('ship-nation-filter');
+                    nations.forEach(n => {
+                        const opt = document.createElement('option');
+                        opt.value = n;
+                        opt.textContent = formatNation(n);
+                        nationFilter.appendChild(opt);
+                    });
+                    renderShips(shipsData);
+                }
+            } catch (err) {
+                console.error('Ships load error:', err);
+                document.getElementById('ship-grid').innerHTML = '<div class="loading">Failed to load ships. CDN may be unavailable.</div>';
+            }
+        }
+
+        function renderShips(ships) {
+            const grid = document.getElementById('ship-grid');
+            if (!ships.length) {
+                grid.innerHTML = '<div class="loading">No ships found matching filters.</div>';
+                return;
+            }
+            grid.innerHTML = ships.slice(0, 150).map(s => `
+                <div class="ship-card ${buildState.ship?.id === s.id ? 'selected' : ''}"
+                     onclick="selectShip(${s.id})">
+                    <div class="ship-name">${escHtml(s.name)}${s.is_premium ? ' <span style="color:var(--accent);font-size:11px;">&#9733;</span>' : ''}</div>
+                    <div class="ship-info">
+                        <span class="ship-tier">Tier ${toRoman(s.tier)}</span> &bull;
+                        <span class="badge badge-${typeToClass(s.type)}">${s.type || '?'}</span> &bull;
+                        ${formatNation(s.nation)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterShips() {
+            const search = document.getElementById('ship-search').value.toLowerCase();
+            const tier = document.getElementById('ship-tier-filter').value;
+            const type = document.getElementById('ship-type-filter').value;
+            const nation = document.getElementById('ship-nation-filter').value;
+
+            let filtered = shipsData.filter(s => {
+                if (search && !s.name.toLowerCase().includes(search)) return false;
+                if (tier && s.tier != tier) return false;
+                if (type && s.type !== type) return false;
+                if (nation && s.nation !== nation) return false;
+                return true;
+            });
+
+            renderShips(filtered);
+        }
+
+        function selectShip(id) {
+            const ship = shipsData.find(s => s.id === id);
+            if (!ship) return;
+            buildState.ship = ship;
+            document.getElementById('btn-step2').disabled = false;
+            filterShips(); // Re-render with current filters to show selection
+            loadSkillsData();
+        }
+
+        // ===== SKILLS =====
+        // Load skills filtered to the selected ship's type (Destroyer, Cruiser, etc.)
+        async function loadSkillsData() {
+            if (!buildState.ship) return;
+            const shipType = buildState.ship.type;
+            try {
+                const res = await apiCall(`/ships/skills/all?ship_type=${encodeURIComponent(shipType)}`);
+                skillsData = await res.json();
+                renderSkills(skillsData);
+            } catch (err) {
+                console.error('Skills load error:', err);
+                document.getElementById('skills-grid').innerHTML =
+                    '<div style="color:var(--danger);padding:16px;">Failed to load skills data.</div>';
+            }
+        }
+
+        // Skills from API use tier 1-4 directly (tier = point cost)
+        function countSkillsInTier(tier) {
+            return buildState.skills.filter(s => s.tier === tier).length;
+        }
+
+        function hasHigherTierSkills(tier) {
+            return buildState.skills.some(s => s.tier > tier);
+        }
+
+        // Can we add a skill of this tier?
+        function canAddSkill(tier) {
+            const totalPts = buildState.skills.reduce((sum, s) => sum + s.tier, 0);
+            if (totalPts + tier > 21) return false;  // 21 point cap
+            if (tier === 1) return true;              // Tier 1 always available
+            return countSkillsInTier(tier - 1) > 0;  // must have a skill in previous tier
+        }
+
+        // Can we remove this skill?
+        function canRemoveSkill(id) {
+            const skill = buildState.skills.find(s => s.id === id);
+            if (!skill) return false;
+            const tier = skill.tier;
+            if (tier === 4) return true;  // highest tier — no dependents
+            if (hasHigherTierSkills(tier)) {
+                return countSkillsInTier(tier) > 1;  // can't remove last in tier if higher exist
+            }
+            return true;
+        }
+
+        function renderSkills(skills) {
+            const grid = document.getElementById('skills-grid');
+            if (!skills || !skills.length) {
+                const shipName = buildState.ship ? buildState.ship.name : 'this ship';
+                grid.innerHTML = `<div class="loading" style="grid-column:1/-1">No skills available for ${escHtml(shipName)}.</div>`;
+                return;
+            }
+
+            // Sort by tier then name — no section headers, flat grid
+            const sorted = [...skills].sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name));
+
+            grid.innerHTML = sorted.map(sk => {
+                const t = sk.tier;
+                const isSelected = buildState.skills.some(s => s.id === sk.id);
+                const addable = !isSelected && canAddSkill(t);
+                const locked = !isSelected && !addable;
+                const tooltip = locked
+                    ? `Unlock Tier ${t}: pick at least one Tier ${t - 1} skill first`
+                    : (sk.description || sk.name);
+                const iconHtml = sk.icon_url
+                    ? `<img class="skill-icon" src="${escAttr(sk.icon_url)}" alt="${escAttr(sk.name)}" loading="lazy" onerror="this.style.display='none'">`
+                    : `<div class="skill-icon-placeholder">${t}</div>`;
+                return `
+                    <div class="skill-item ${isSelected ? 'selected' : ''} ${locked ? 'locked' : ''}"
+                         onclick="${locked ? '' : `toggleSkill(${sk.id}, '${escAttr(sk.name)}', ${t})`}"
+                         style="${locked ? 'cursor:not-allowed;' : ''}"
+                         title="${escAttr(tooltip)}">
+                        <span class="skill-tier-badge">${t}</span>
+                        ${iconHtml}
+                        <span class="skill-name">${escHtml(sk.name)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterSkills() {
+            const search = document.getElementById('skill-search').value.toLowerCase();
+            const tier = document.getElementById('skill-tier-filter').value;
+            let filtered = skillsData.filter(sk => {
+                if (search && !sk.name.toLowerCase().includes(search)) return false;
+                if (tier && sk.tier != tier) return false;
+                return true;
+            });
+            renderSkills(filtered);
+        }
+
+        function toggleSkill(id, name, tier) {
+            const idx = buildState.skills.findIndex(s => s.id === id);
+            if (idx >= 0) {
+                if (!canRemoveSkill(id)) {
+                    alert('Cannot remove this skill: higher-tier skills depend on it. Remove those first.');
+                    return;
+                }
+                buildState.skills.splice(idx, 1);
+            } else {
+                if (!canAddSkill(tier)) return;
+                buildState.skills.push({ id, name, tier });
+            }
+            updateSkillsUI();
+            filterSkills();
+        }
+
+        function removeSkill(id) {
+            if (!canRemoveSkill(id)) {
+                alert('Cannot remove this skill: higher-tier skills depend on it. Remove those first.');
+                return;
+            }
+            buildState.skills = buildState.skills.filter(s => s.id !== id);
+            updateSkillsUI();
+            filterSkills();
+        }
+
+        function updateSkillsUI() {
+            const total = buildState.skills.reduce((sum, s) => sum + (s.tier || 0), 0);
+            const counter = document.getElementById('skill-points');
+            counter.textContent = total;
+            counter.className = 'points-counter' + (total > 21 ? ' over' : '');
+
+            const list = document.getElementById('selected-skills-list');
+            if (buildState.skills.length === 0) {
+                list.innerHTML = '<span style="color:var(--text-muted);font-size:13px;">Click skills below to add them. Tier 1 is always available — unlock higher tiers by picking at least one skill from the previous tier.</span>';
+            } else {
+                list.innerHTML = buildState.skills.map((s, i) => {
+                    const removable = canRemoveSkill(s.id);
+                    return `
+                    <div class="selected-skill-tag">
+                        <span class="order-num">${i + 1}</span>
+                        ${escHtml(s.name)} <span style="opacity:0.7">(${s.tier}pt)</span>
+                        <span class="remove" onclick="removeSkill(${JSON.stringify(s.id)})"
+                              style="${removable ? '' : 'opacity:0.3;cursor:not-allowed;'}"
+                              title="${removable ? 'Remove' : 'Cannot remove: higher-tier skills depend on this'}">&times;</span>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        // ===== UPGRADES / MODERNIZATIONS =====
+        let shipUpgradeSlots = {}; // { 1: [...], 2: [...], ... }
+
+        async function loadModulesData() {
+            if (!buildState.ship) return;
+            const grid = document.getElementById('upgrades-grid');
+            grid.innerHTML = '<div class="loading" style="grid-column:1/-1;"><div class="spinner"></div><br>Loading upgrades for ' + escHtml(buildState.ship.name) + '...</div>';
+
+            try {
+                const res = await apiCall(`/ships/${buildState.ship.id}/upgrades`);
+                const data = await res.json();
+                shipUpgradeSlots = data.slots || {};
+                renderUpgradeSlots();
+            } catch (err) {
+                console.error('Upgrades load error:', err);
+                grid.innerHTML = '<div class="loading" style="grid-column:1/-1;">Failed to load upgrade data.</div>';
+            }
+        }
+
+        function renderUpgradeSlots() {
+            const grid = document.getElementById('upgrades-grid');
+            const slotNums = [1, 2, 3, 4, 5, 6];
+
+            grid.innerHTML = slotNums.map(slot => {
+                const upgrades = shipUpgradeSlots[slot] || [];
+                const selected = buildState.upgrades.find(u => u.slot === slot);
+                const isEmpty = !upgrades.length;
+
+                return `
+                    <div class="upgrade-slot-col" style="min-height:120px;">
+                        <div style="text-align:center;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px;">
+                            Slot ${slot}
+                        </div>
+                        ${isEmpty ? `<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:16px 4px;">N/A</div>` :
+                        upgrades.map(u => {
+                            const isSel = selected && selected.game_id === u.game_id;
+                            const effectsList = Object.values(u.effects || {}).map(e => e.description).filter(Boolean);
+                            return `
+                                <div class="upgrade-option ${isSel ? 'selected' : ''}"
+                                     onclick="selectUpgrade(${slot}, '${escAttr(u.game_id)}', '${escAttr(u.name)}', '${escAttr(u.image_url || '')}')"
+                                     title="${escAttr(effectsList.join('\n') || u.name)}">
+                                    ${u.image_url
+                                        ? `<img src="${escAttr(u.image_url)}" alt="${escAttr(u.name)}" style="width:40px;height:40px;border-radius:4px;" loading="lazy" onerror="this.style.display='none'">`
+                                        : `<div style="width:40px;height:40px;background:var(--surface);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">${slot}</div>`
+                                    }
+                                    <div style="font-size:11px;margin-top:4px;text-align:center;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;">
+                                        ${escHtml(u.name)}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }).join('');
+
+            // Update summary
+            const count = buildState.upgrades.length;
+            document.getElementById('upgrades-summary').textContent = `${count}/6 slots filled`;
+        }
+
+        function selectUpgrade(slot, gameId, name, imageUrl) {
+            // Remove existing selection for this slot
+            buildState.upgrades = buildState.upgrades.filter(u => u.slot !== slot);
+            // Toggle — if same was selected, just deselect
+            const wasSelected = buildState.upgrades.find(u => u.game_id === gameId);
+            if (!wasSelected) {
+                buildState.upgrades.push({ slot, game_id: gameId, name, image_url: imageUrl });
+            }
+            renderUpgradeSlots();
+        }
+
+        // ===== BUILDER STEPS =====
+        function goToStep(step) {
+            if (step > 1 && !buildState.ship) return;
+
+            buildState.step = step;
+            document.querySelectorAll('.builder-step').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            document.querySelectorAll('.step-indicator').forEach(s => {
+                const sNum = parseInt(s.dataset.step);
+                s.classList.remove('active', 'completed');
+                if (sNum === step) s.classList.add('active');
+                else if (sNum < step) s.classList.add('completed');
+            });
+
+            if (step === 3) loadModulesData();
+            if (step === 4) renderBuildSummary();
+        }
+
+        function resetBuilder() {
+            buildState = { ship: null, skills: [], modules: {}, upgrades: [], step: 1 };
+            document.getElementById('btn-step2').disabled = true;
+            document.getElementById('build-title').value = '';
+            document.getElementById('build-description').value = '';
+            document.getElementById('build-playstyle').value = '';
+            document.getElementById('build-alternatives').value = '';
+            document.getElementById('build-tags').value = '';
+            document.getElementById('publish-error').classList.add('hidden');
+            document.getElementById('publish-success').classList.add('hidden');
+            goToStep(1);
+            updateSkillsUI();
+        }
+
+        function renderBuildSummary() {
+            const ship = buildState.ship;
+            const totalPts = buildState.skills.reduce((s, sk) => s + (sk.tier || 0), 0);
+            document.getElementById('build-summary').innerHTML = `
+                <table>
+                    <tr><td style="color:var(--text-secondary);width:140px;">Ship</td>
+                        <td><strong>${ship ? escHtml(ship.name) : 'None'}</strong>
+                        ${ship ? `- Tier ${toRoman(ship.tier)} ${ship.type || ''} (${formatNation(ship.nation)})` : ''}</td></tr>
+                    <tr><td style="color:var(--text-secondary);">Captain Skills (${totalPts}pts)</td>
+                        <td>${buildState.skills.map((s, i) => `<span class="badge badge-destroyer" style="margin:2px;">${i+1}. ${escHtml(s.name)}</span>`).join(' ') || 'None selected'}</td></tr>
+                    <tr><td style="color:var(--text-secondary);">Modules</td>
+                        <td>${Object.keys(buildState.modules).length ? Object.entries(buildState.modules).map(([k,v]) => `${formatSlotName(k)}: Option ${v+1}`).join(', ') : 'Default'}</td></tr>
+                    <tr><td style="color:var(--text-secondary);">Upgrades</td>
+                        <td>${buildState.upgrades.length ? buildState.upgrades.join(', ') : 'None selected'}</td></tr>
+                </table>
+            `;
+        }
+
+        // ===== SAVE/PUBLISH BUILD =====
+        async function saveBuild(status) {
+            const errEl = document.getElementById('publish-error');
+            const sucEl = document.getElementById('publish-success');
+            errEl.classList.add('hidden');
+            sucEl.classList.add('hidden');
+
+            const title = document.getElementById('build-title').value.trim();
+            if (!title) { errEl.textContent = 'Build title is required.'; errEl.classList.remove('hidden'); return; }
+            if (!buildState.ship) { errEl.textContent = 'No ship selected.'; errEl.classList.remove('hidden'); return; }
+
+            const tags = document.getElementById('build-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+
+            try {
+                const res = await apiCall('/builds', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        ship_id: String(buildState.ship.id),
+                        ship_name: buildState.ship.name,
+                        ship_tier: buildState.ship.tier,
+                        ship_nation: buildState.ship.nation,
+                        ship_type: buildState.ship.type,
+                        title,
+                        description: document.getElementById('build-description').value,
+                        play_style_notes: document.getElementById('build-playstyle').value,
+                        alternative_notes: document.getElementById('build-alternatives').value,
+                        captain_skills: buildState.skills,
+                        modules: buildState.modules,
+                        upgrades: buildState.upgrades,
+                        tags,
+                        status
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+
+                sucEl.textContent = `Build ${status === 'published' ? 'published' : 'saved as draft'} successfully! (ID: ${data.id})`;
+                sucEl.classList.remove('hidden');
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        // ===== MANAGE BUILDS =====
+        async function loadBuilds() {
+            try {
+                const status = document.getElementById('manage-status-filter').value;
+                const search = document.getElementById('manage-search').value;
+                let url = currentUser.role === 'admin' ? '/admin/builds?' : '/builds/my/all?';
+                if (status) url += `status=${status}&`;
+                if (search) url += `search=${encodeURIComponent(search)}&`;
+
+                const res = await apiCall(url);
+                let builds = await res.json();
+                if (builds.builds) builds = builds.builds; // Handle paginated response
+
+                const tbody = document.getElementById('builds-table');
+                if (!builds.length) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px;">No builds found.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = builds.map(b => `
+                    <tr>
+                        <td><strong>${escHtml(b.title)}</strong></td>
+                        <td>${escHtml(b.ship_name)}</td>
+                        <td><span class="badge badge-${typeToClass(b.ship_type)}">${b.ship_type || '?'}</span></td>
+                        <td><span class="badge badge-${b.status}">${b.status}</span></td>
+                        <td>${b.view_count || 0}</td>
+                        <td>${escHtml(b.author_name || b.display_name || '-')}</td>
+                        <td>
+                            ${b.status === 'draft' ? `<button class="btn btn-success btn-sm" onclick="publishBuild(${b.id})">Publish</button>` : ''}
+                            <button class="btn btn-danger btn-sm" onclick="deleteBuild(${b.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error('Load builds error:', err);
+            }
+        }
+
+        async function publishBuild(id) {
+            try {
+                await apiCall(`/builds/${id}`, { method: 'PUT', body: JSON.stringify({ status: 'published' }) });
+                loadBuilds();
+            } catch (err) { console.error(err); }
+        }
+
+        async function deleteBuild(id) {
+            if (!confirm('Are you sure you want to delete this build?')) return;
+            try {
+                await apiCall(`/builds/${id}`, { method: 'DELETE' });
+                loadBuilds();
+            } catch (err) { console.error(err); }
+        }
+
+        // ===== USERS =====
+        async function loadUsers() {
+            try {
+                const res = await apiCall('/auth/users');
+                const users = await res.json();
+                document.getElementById('users-table').innerHTML = users.map(u => `
+                    <tr>
+                        <td>${escHtml(u.username)}</td>
+                        <td>${escHtml(u.display_name)}</td>
+                        <td>${escHtml(u.email)}</td>
+                        <td><span class="badge badge-${u.role}">${u.role}</span></td>
+                        <td>${u.last_login ? formatDate(u.last_login) : 'Never'}</td>
+                        <td>
+                            <button class="btn btn-secondary btn-sm" onclick="editUser(${u.id})">Edit</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) { console.error(err); }
+        }
+
+        function editUser(id) {
+            const newName = prompt('New display name (leave blank to skip):');
+            const newRole = prompt('New role (admin/editor, leave blank to skip):');
+            const newPass = prompt('New password (leave blank to skip):');
+            const body = {};
+            if (newName) body.display_name = newName;
+            if (newRole && ['admin','editor'].includes(newRole)) body.role = newRole;
+            if (newPass) body.password = newPass;
+            if (Object.keys(body).length === 0) return;
+            apiCall(`/auth/users/${id}`, { method: 'PUT', body: JSON.stringify(body) })
+                .then(() => loadUsers())
+                .catch(err => alert('Error: ' + err.message));
+        }
+
+        // ===== AUDIT LOG =====
+        async function loadAudit() {
+            try {
+                const res = await apiCall('/admin/audit');
+                const logs = await res.json();
+                document.getElementById('audit-table').innerHTML = logs.length ? logs.map(l => `
+                    <tr>
+                        <td>${formatDate(l.created_at)}</td>
+                        <td>${escHtml(l.user_name)}</td>
+                        <td><span class="badge badge-${l.action === 'delete' ? 'archived' : 'published'}">${l.action}</span></td>
+                        <td>${escHtml(l.entity_type)}</td>
+                        <td>${escHtml(l.details || '')}</td>
+                    </tr>
+                `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">No audit entries yet.</td></tr>';
+            } catch (err) { console.error(err); }
+        }
+
+        // ===== HELPERS =====
+        function escHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+        function escAttr(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+        function formatDate(d) {
+            if (!d) return '-';
+            return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+        function toRoman(num) {
+            const map = {10:'X',9:'IX',8:'VIII',7:'VII',6:'VI',5:'V',4:'IV',3:'III',2:'II',1:'I',11:'XI'};
+            return map[num] || num;
+        }
+        function formatNation(n) {
+            if (!n) return '?';
+            const names = {
+                usa: 'U.S.A.', japan: 'Japan', ussr: 'U.S.S.R.', germany: 'Germany',
+                uk: 'U.K.', france: 'France', italy: 'Italy', pan_asia: 'Pan-Asia',
+                europe: 'Europe', commonwealth: 'Commonwealth', pan_america: 'Pan-America',
+                netherlands: 'Netherlands', spain: 'Spain'
+            };
+            return names[n.toLowerCase()] || n.charAt(0).toUpperCase() + n.slice(1);
+        }
+        function typeToClass(type) {
+            const map = { Destroyer: 'destroyer', Cruiser: 'cruiser', Battleship: 'battleship', AirCarrier: 'carrier', Submarine: 'submarine' };
+            return map[type] || 'destroyer';
+        }
+        function formatSlotName(name) {
+            return name.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase()).trim();
+        }
+
+        // ===== INIT =====
+        if (token) {
+            showApp();
+        }
+    </script>
+</body>
+</html>

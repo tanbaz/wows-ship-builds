@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "wows-frontend",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "C:\\Users\\Tanmay\\Downloads\\wows builds\\wows_site\\wowsshipbuilds"],
+      "port": 8080
+    },
+    {
+      "name": "wows-backend",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:\\Users\\Tanmay\\Downloads\\wows builds\\wows_site\\wowsshipbuilds\\backend\\server.js"],
+      "port": 3000
+    }
+  ]
+}
