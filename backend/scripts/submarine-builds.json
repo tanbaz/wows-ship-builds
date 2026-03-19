@@ -1,0 +1,518 @@
+[
+  {
+    "ship_name": "U-2501",
+    "ship_tier": 10,
+    "ship_nation": "Germany",
+    "ship_type": "Submarine",
+    "title": "KM sub build",
+    "notes": [
+      "If you don’t have the DCP mod, use MAM1. If no Battery mod, use DCSM3. If no Surveillance mod, use Dive cap mod.",
+      "Applies to U-69, U-190 and U-2501."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 6
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 7
+      },
+      {
+        "row": 1,
+        "col": 3,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "U-4501",
+    "ship_tier": 10,
+    "ship_nation": "Germany",
+    "ship_type": "Submarine",
+    "title": "U-4501",
+    "notes": [
+      "If you don’t have the DCP mod, use MAM1. If no Battery mod, use DCSM3. If no Surveillance mod, use Dive cap mod.",
+      "If you feel like you don’t have enough battery, opt for the battery mod in slot 6."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 3,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 3,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 3
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 4,
+        "order": 5
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 6
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 7
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "Gato",
+    "ship_tier": 10,
+    "ship_nation": "USA",
+    "ship_type": "Submarine",
+    "title": "USN sub build",
+    "notes": [
+      "Applies to Cachalot, Salmon, Balao and Gato."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 3,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 4
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 5
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 6
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 7
+      },
+      {
+        "row": 1,
+        "col": 2,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "Gato",
+    "ship_tier": 10,
+    "ship_nation": "USA",
+    "ship_type": "Submarine",
+    "title": "Archerfish",
+    "notes": [],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 4
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 5
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 6
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 7
+      },
+      {
+        "row": 1,
+        "col": 1,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "U-2501",
+    "ship_tier": 10,
+    "ship_nation": "UK",
+    "ship_type": "Submarine",
+    "title": "RN submarine build",
+    "notes": [
+      "If you don’t have the DCP mod, use MAM1. If no Surveillance mod, use Dive cap mod.",
+      "Applies to Undine, Sturdy, Alliance and Thrasher."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 4,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 6
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 7
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "U-2501",
+    "ship_tier": 10,
+    "ship_nation": "USSR",
+    "ship_type": "Submarine",
+    "title": "K-1 S-1 and L-20 (Soviet Submarines)",
+    "notes": [
+      "If you don’t have the DCP mod, use MAM1. If no Surveillance mod, use Dive cap mod.",
+      "Applies to K-1, S-1 and L-20 for the Soviet Submarine line."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 3,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 4,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 6
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 7
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "I-56",
+    "ship_tier": 8,
+    "ship_nation": "Japan",
+    "ship_type": "Submarine",
+    "title": "I-56",
+    "notes": [
+      "If you don’t have the DCP mod, use MAM1. If no Battery mod, use DCSM3."
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 2,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 6
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 7
+      },
+      {
+        "row": 1,
+        "col": 3,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "U-2501",
+    "ship_tier": 6,
+    "ship_nation": "Pan-Asia",
+    "ship_type": "Submarine",
+    "title": "Xin Zhong Guo 14",
+    "notes": [
+      "Fast submarine with deepwater torpedoes and a reserve battery for extended underwater operations",
+      "Irl she is S-25 that was transferred from the USSR to the PRC in 1955",
+      "Name literally translates to “New China No.14”",
+      "Standard submarine build",
+      "Emphasis on improving her consumables to make full use of the skill “Enlarged Propeller Shaft” (EPS)",
+      "Ideally at the start of the match, you drain the battery to below half to activate the +18% speed boost. From here, you can run around the enemy spamming torps and even surfacing to troll with your 1 gun.",
+      "Use the reserve battery when under half battery so you keep EPS active"
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 3,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 4
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 6
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 7
+      },
+      {
+        "row": 1,
+        "col": 3,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "S-189",
+    "ship_tier": 8,
+    "ship_nation": "USSR",
+    "ship_type": "Submarine",
+    "title": "S-189",
+    "notes": [
+      "If you don’t find SI useful feel free to swap it for any combination of 1 and 2 point skills you may find useful (except LS because subs don’t lose steering and engine)"
+    ],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 4,
+        "order": 4
+      },
+      {
+        "row": 4,
+        "col": 5,
+        "order": 5
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 6
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 7
+      }
+    ],
+    "upgrade_names": []
+  },
+  {
+    "ship_name": "U-2501",
+    "ship_tier": 10,
+    "ship_nation": "UK",
+    "ship_type": "Submarine",
+    "title": "Seal",
+    "notes": [],
+    "skill_positions": [
+      {
+        "row": 1,
+        "col": 2,
+        "order": 1
+      },
+      {
+        "row": 2,
+        "col": 1,
+        "order": 2
+      },
+      {
+        "row": 3,
+        "col": 4,
+        "order": 3
+      },
+      {
+        "row": 4,
+        "col": 1,
+        "order": 4
+      },
+      {
+        "row": 3,
+        "col": 1,
+        "order": 5
+      },
+      {
+        "row": 3,
+        "col": 5,
+        "order": 6
+      },
+      {
+        "row": 3,
+        "col": 3,
+        "order": 7
+      },
+      {
+        "row": 2,
+        "col": 3,
+        "order": 8
+      }
+    ],
+    "upgrade_names": []
+  }
+]

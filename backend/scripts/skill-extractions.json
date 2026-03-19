@@ -1,0 +1,174 @@
+[
+  {
+    "image": "image200.png", "h3_title": "IJN gunboat DDs (Harugumo Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":7,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image68.png", "h3_title": "Hayate", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":4,"col":4,"name":"Fearless Brawler","tier":4},
+      {"order":7,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image78.png", "h3_title": "IJN torpedoboat DDs (Shimakaze Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":2,"name":"Fill the Tubes","tier":3},
+      {"order":7,"row":4,"col":2,"name":"Swift in Silence","tier":4},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image122.png", "h3_title": "USN Universal-type DDs (Gearing Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":7,"row":3,"col":2,"name":"Fill the Tubes","tier":3},
+      {"order":8,"row":2,"col":3,"name":"Consumable Enhancements","tier":2}
+    ]
+  },
+  {
+    "image": "image121.png", "h3_title": "USN Gunboat DDs (Burrows Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":6,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":7,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":8,"row":1,"col":1,"name":"Grease the Gears","tier":1}
+    ]
+  },
+  {
+    "image": "image2.png", "h3_title": "Forrest Sherman", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":7,"row":3,"col":5,"name":"Superintendent","tier":3},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image64.png", "h3_title": "VMF (Soviet) Gunboat DDs (Delny Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":7,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image115.png", "h3_title": "VMF universal-type DDs (Grozovoi Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":5,"name":"Superintendent","tier":3},
+      {"order":7,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image33.png", "h3_title": "Ognevoi", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":5,"name":"Superintendent","tier":3},
+      {"order":7,"row":3,"col":2,"name":"Fill the Tubes","tier":3},
+      {"order":8,"row":2,"col":2,"name":"Swift Fish","tier":2}
+    ]
+  },
+  {
+    "image": "image37.png", "h3_title": "KM (German) universal-type DDs (Z-52 line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":5,"name":"Superintendent","tier":3},
+      {"order":7,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":8,"row":2,"col":3,"name":"Consumable Enhancements","tier":2}
+    ]
+  },
+  {
+    "image": "image135.png", "h3_title": "Z-52", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":7,"row":2,"col":2,"name":"Swift Fish","tier":2},
+      {"order":8,"row":2,"col":3,"name":"Consumable Enhancements","tier":2},
+      {"order":9,"row":1,"col":3,"name":"Consumable Specialist","tier":1}
+    ]
+  },
+  {
+    "image": "image71.png", "h3_title": "Z-42", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":3,"col":1,"name":"Main Battery and AA Specialist","tier":3},
+      {"order":7,"row":2,"col":1,"name":"Demolition Expert","tier":2},
+      {"order":8,"row":1,"col":3,"name":"Consumable Specialist","tier":1},
+      {"order":9,"row":2,"col":3,"name":"Consumable Enhancements","tier":2}
+    ]
+  },
+  {
+    "image": "image249.png", "h3_title": "KM gunboat DDs (Elbing Line)", "ship_type": "Destroyer",
+    "skills": [
+      {"order":1,"row":1,"col":6,"name":"Preventive Maintenance","tier":1},
+      {"order":2,"row":2,"col":6,"name":"Last Stand","tier":2},
+      {"order":3,"row":3,"col":6,"name":"Survivability Expert","tier":3},
+      {"order":4,"row":4,"col":5,"name":"Concealment Expert","tier":4},
+      {"order":5,"row":3,"col":3,"name":"Adrenaline Rush","tier":3},
+      {"order":6,"row":4,"col":1,"name":"Main Battery and AA Expert","tier":4},
+      {"order":7,"row":2,"col":4,"name":"Extra-Heavy Ammunition","tier":2},
+      {"order":8,"row":1,"col":1,"name":"Grease the Gears","tier":1},
+      {"order":9,"row":1,"col":4,"name":"Gun Feeder","tier":1}
+    ]
+  }
+]
