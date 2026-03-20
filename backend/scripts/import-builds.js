@@ -83,7 +83,7 @@ async function main() {
     await getDb();
 
     // Load analyzed builds data
-    const dataPath = path.join(__dirname, 'submarine-builds.json');
+    const dataPath = path.join(__dirname, 'builds-data.json');
     if (!fs.existsSync(dataPath)) {
         console.error('No builds data file found at:', dataPath);
         process.exit(1);
@@ -97,17 +97,19 @@ async function main() {
     for (const b of builds) {
         if (categoryFilter && b.ship_type !== categoryFilter) continue;
 
+        const title = b.h3_title || b.title;
+
         // Skip if no skill data yet
         if (!b.skill_positions || !b.skill_positions.length) {
-            console.log(`SKIP (no skills): ${b.title}`);
+            console.log(`SKIP (no skills): ${title}`);
             skipped++;
             continue;
         }
 
         // Check for duplicates
-        const existing = queryOne('SELECT id FROM builds WHERE ship_name = ? AND title = ?', [b.ship_name, b.title]);
+        const existing = queryOne('SELECT id FROM builds WHERE ship_name = ? AND title = ?', [b.ship_name, title]);
         if (existing) {
-            console.log(`SKIP (exists): ${b.ship_name} — ${b.title}`);
+            console.log(`SKIP (exists): ${b.ship_name} — ${title}`);
             skipped++;
             continue;
         }
@@ -115,7 +117,7 @@ async function main() {
         // Resolve skills from grid positions
         const captain_skills = resolveSkills(b.ship_type, b.skill_positions);
         if (!captain_skills.length) {
-            console.log(`SKIP (no resolved skills): ${b.title}`);
+            console.log(`SKIP (no resolved skills): ${title}`);
             skipped++;
             continue;
         }
@@ -129,14 +131,15 @@ async function main() {
             continue;
         }
 
-        // Build notes
-        const description = b.notes && b.notes.length ? b.notes[0] : '';
-        const play_style_notes = b.notes && b.notes.length > 1 ? b.notes.slice(1).join('\n') : '';
+        // Structured notes (enriched by enrich-builds.js)
+        const description = b.description || '';
+        const play_style_notes = b.play_style_notes || '';
+        const alternative_notes = b.alternative_notes || '';
 
         const totalPts = captain_skills.reduce((s, sk) => s + sk.tier, 0);
 
         if (dryRun) {
-            console.log(`DRY RUN: ${b.ship_name} (T${b.ship_tier} ${b.ship_type}) — "${b.title}" — ${captain_skills.length} skills (${totalPts}pts) — ${(b.upgrade_names||[]).length} upgrades`);
+            console.log(`DRY RUN: ${b.ship_name} (T${b.ship_tier} ${b.ship_type}) — "${title}" — ${captain_skills.length} skills (${totalPts}pts) — ${(b.upgrade_names||[]).length} upgrades — ${(b.tags||[]).length} tags`);
             imported++;
             continue;
         }
@@ -154,7 +157,7 @@ async function main() {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', datetime('now'))
             `, [
                 shipId, b.ship_name, b.ship_tier, b.ship_nation, b.ship_type, category.id,
-                b.title, description, play_style_notes, '',
+                title, description, play_style_notes, alternative_notes,
                 JSON.stringify(captain_skills),
                 JSON.stringify({}),
                 JSON.stringify(b.upgrade_names || []),
@@ -163,7 +166,13 @@ async function main() {
                 1  // admin1 user ID
             ]);
 
-            console.log(`IMPORTED: ${b.ship_name} — "${b.title}" (${totalPts}pts, ${captain_skills.length} skills)`);
+            // Insert tags
+            const buildId = result.lastInsertRowid;
+            for (const tag of (b.tags || [])) {
+                runSql('INSERT INTO build_tags (build_id, tag) VALUES (?, ?)', [buildId, tag]);
+            }
+
+            console.log(`IMPORTED: ${b.ship_name} — "${b.title}" (${totalPts}pts, ${captain_skills.length} skills, ${(b.tags||[]).length} tags)`);
             imported++;
         } catch (err) {
             console.error(`ERROR importing ${b.ship_name}: ${err.message}`);
