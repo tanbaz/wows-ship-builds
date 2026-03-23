@@ -78,6 +78,20 @@ async function getDb() {
         console.warn('Migration warning:', e.message);
     }
 
+    // Migrate builds table: add is_premium column if missing
+    try {
+        const buildCols = db.exec("PRAGMA table_info(builds)")[0];
+        if (buildCols) {
+            const colNames = buildCols.values.map(row => row[1]);
+            if (!colNames.includes('is_premium')) {
+                db.run('ALTER TABLE builds ADD COLUMN is_premium INTEGER DEFAULT 0');
+                console.log('[DB] Added is_premium column to builds table');
+            }
+        }
+    } catch (e) {
+        console.warn('Builds migration warning:', e.message);
+    }
+
     // Start auto-save
     if (!saveInterval) {
         saveInterval = setInterval(saveDb, 30000);

@@ -151,13 +151,14 @@ async function main() {
 
             const result = runSql(`
                 INSERT INTO builds (ship_id, ship_name, ship_tier, ship_nation, ship_type, category_id,
-                    title, description, play_style_notes, alternative_notes,
+                    title, description, play_style_notes, alternative_notes, is_premium,
                     captain_skills, modules, upgrades, consumables, signals,
                     author_id, status, published_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', datetime('now'))
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', datetime('now'))
             `, [
                 shipId, b.ship_name, b.ship_tier, b.ship_nation, b.ship_type, category.id,
                 title, description, play_style_notes, alternative_notes,
+                b.is_premium ? 1 : 0,
                 JSON.stringify(captain_skills),
                 JSON.stringify({}),
                 JSON.stringify(b.upgrade_names || []),

@@ -40,6 +40,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/ships', require('./routes/ships'));
 app.use('/api/builds', require('./routes/builds'));
 app.use('/api/changelog', require('./routes/changelog'));
+app.use('/api/content', require('./routes/content'));
 app.use('/api/admin', require('./routes/admin'));
 
 // Serve static admin dashboard

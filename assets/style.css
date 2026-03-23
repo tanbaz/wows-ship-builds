@@ -847,6 +847,23 @@ html {
   color: var(--wows-teal);
 }
 
+/* Category section — no card styling, just spacing */
+.builds-section {
+  margin: 0 0 36px;
+}
+
+.builds-section h2 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--wows-teal-dim);
+  margin-bottom: 20px;
+}
+
+.build-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .build-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -928,9 +945,26 @@ html {
   background: #2a2a2a;
   border-radius: 6px;
   overflow: hidden;
-  margin-bottom: 1.2rem;
-  max-width: 520px;
+  width: 100%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Two-column content layout: skill grid left, notes right */
+.bc-content {
+  display: flex;
+  gap: 0;
+}
+
+.bc-left {
+  flex: 0 0 auto;
+  border-right: 1px solid #444;
+}
+
+.bc-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header: tier + ship name + build name */
@@ -1080,7 +1114,6 @@ html {
   list-style: disc;
   padding: 10px 16px 10px 32px;
   margin: 0;
-  border-top: 1px solid #333;
   background: rgba(0,0,0,0.15);
 }
 
@@ -1201,6 +1234,9 @@ html {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  padding: 10px 16px;
+  margin-top: auto;
+  border-top: 1px solid #333;
 }
 
 .build-tag {
@@ -1239,10 +1275,201 @@ html {
 
 @keyframes bc-spin { to { transform: rotate(360deg); } }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .bc-content {
+    flex-direction: column;
+  }
+  .bc-left {
+    border-right: none;
+    border-bottom: 1px solid #444;
+  }
   .build-cards-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Loading & Error States ────────────────────────────────── */
+
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 3rem 2rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-family: var(--font-condensed);
+  letter-spacing: .04em;
+}
+
+.loading-placeholder::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border);
+  border-top-color: var(--wows-teal);
+  border-radius: 50%;
+  animation: bc-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.error-state {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  color: var(--wows-red);
+  font-size: 0.95rem;
+}
+
+.error-state .error-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.error-state .error-msg {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.error-state .retry-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid var(--wows-teal-dim);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--wows-teal);
+  font-size: 0.85rem;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.error-state .retry-btn:hover {
+  background: var(--wows-teal);
+  color: var(--wows-bg);
+}
+
+/* ── Build Card Semantic Notes ────────────────────────────── */
+
+.bc-description {
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.bc-description p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.bc-playstyle {
+  padding: 12px 16px;
+  border-top: 1px solid #333;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.bc-playstyle h4 {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--wows-teal-dim);
+  margin: 0 0 6px;
+}
+
+.bc-playstyle p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.bc-alternatives {
+  border-top: 1px solid #333;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.bc-alternatives summary {
+  padding: 10px 16px;
+  font-family: var(--font-condensed);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: color .15s;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bc-alternatives summary::-webkit-details-marker { display: none; }
+
+.bc-alternatives summary::before {
+  content: '\25B6';
+  font-size: 0.55rem;
+  transition: transform .15s;
+}
+
+.bc-alternatives[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.bc-alternatives summary:hover {
+  color: var(--wows-teal);
+}
+
+.bc-alternatives .alt-content {
+  padding: 0 16px 12px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* ── Empty Category Message ───────────────────────────────── */
+
+.builds-empty-category {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ── Changelog Entries ────────────────────────────────────── */
+
+.changelog-date {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--wows-teal);
+  margin: 1.25rem 0 0.5rem;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.changelog-date:first-child {
+  margin-top: 0;
+}
+
+.changelog-entries {
+  list-style: disc;
+  padding-left: 24px;
+  margin: 0 0 0.75rem;
+}
+
+.changelog-entries li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 3px;
 }
 
 /* ── Print ─────────────────────────────────────────────────── */

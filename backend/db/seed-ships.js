@@ -227,9 +227,11 @@ async function seedShips() {
         { name: 'Sight Stabilization', cost: 4, description: 'Reduces aiming time for aircraft.', ship_types: 'AirCarrier' },
     ];
 
-    const insertSkill = 'INSERT OR IGNORE INTO captain_skills (name, cost, description, ship_types) VALUES (?, ?, ?, ?)';
+    const insertSkill = 'INSERT OR IGNORE INTO captain_skills (game_id, name, customization) VALUES (?, ?, ?)';
     for (const sk of skills) {
-        runSql(insertSkill, [sk.name, sk.cost, sk.description, sk.ship_types]);
+        const gameId = sk.name.toLowerCase().replace(/\s+/g, '_');
+        const customization = JSON.stringify({ cost: sk.cost, description: sk.description, ship_types: sk.ship_types });
+        runSql(insertSkill, [gameId, sk.name, customization]);
     }
     console.log(`  ${skills.length} captain skills seeded`);
 

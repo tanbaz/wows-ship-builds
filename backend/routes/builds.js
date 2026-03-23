@@ -26,9 +26,10 @@ router.get('/my/all', authenticate, requireEditor, (req, res) => {
 // GET /api/builds - List published builds (public)
 router.get('/', (req, res) => {
     try {
-        const { category, ship_type, tier, nation, search, page = 1, limit = 50 } = req.query;
+        const { category, ship_type, tier, nation, is_premium, search, page = 1, limit = 50 } = req.query;
 
-        let query = `SELECT b.*, u.display_name as author_name, sc.name as category_name, sc.slug as category_slug
+        let query = `SELECT b.*, u.display_name as author_name, sc.name as category_name, sc.slug as category_slug,
+                      (SELECT GROUP_CONCAT(bt.tag, ',') FROM build_tags bt WHERE bt.build_id = b.id) as tags_csv
                       FROM builds b
                       JOIN users u ON b.author_id = u.id
                       JOIN ship_categories sc ON b.category_id = sc.id
@@ -39,15 +40,22 @@ router.get('/', (req, res) => {
         if (ship_type) { query += ' AND b.ship_type = ?'; params.push(ship_type); }
         if (tier) { query += ' AND b.ship_tier = ?'; params.push(parseInt(tier)); }
         if (nation) { query += ' AND b.ship_nation = ?'; params.push(nation); }
+        if (is_premium !== undefined) { query += ' AND b.is_premium = ?'; params.push(parseInt(is_premium)); }
         if (search) { query += ' AND (b.ship_name LIKE ? OR b.title LIKE ?)'; params.push(`%${search}%`, `%${search}%`); }
 
-        query += ' ORDER BY b.featured DESC, b.published_at DESC';
+        query += ' ORDER BY b.ship_type, b.is_premium, b.ship_tier DESC, b.ship_name';
 
         const offset = (parseInt(page) - 1) * parseInt(limit);
         query += ' LIMIT ? OFFSET ?';
         params.push(parseInt(limit), offset);
 
         const builds = queryAll(query, params);
+
+        // Parse tags_csv into arrays
+        for (const b of builds) {
+            b.tags = b.tags_csv ? b.tags_csv.split(',') : [];
+            delete b.tags_csv;
+        }
 
         // Get total count
         let countQuery = `SELECT COUNT(*) as total FROM builds b
@@ -58,6 +66,7 @@ router.get('/', (req, res) => {
         if (ship_type) { countQuery += ' AND b.ship_type = ?'; countParams.push(ship_type); }
         if (tier) { countQuery += ' AND b.ship_tier = ?'; countParams.push(parseInt(tier)); }
         if (nation) { countQuery += ' AND b.ship_nation = ?'; countParams.push(nation); }
+        if (is_premium !== undefined) { countQuery += ' AND b.is_premium = ?'; countParams.push(parseInt(is_premium)); }
         if (search) { countQuery += ' AND (b.ship_name LIKE ? OR b.title LIKE ?)'; countParams.push(`%${search}%`, `%${search}%`); }
 
         const countResult = queryOne(countQuery, countParams);

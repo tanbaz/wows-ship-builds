@@ -40,6 +40,9 @@ CREATE TABLE IF NOT EXISTS builds (
     consumables JSON NOT NULL DEFAULT '[]',
     signals JSON NOT NULL DEFAULT '[]',
 
+    -- Classification
+    is_premium INTEGER DEFAULT 0,
+
     -- Metadata
     author_id INTEGER NOT NULL,
     status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft', 'published', 'archived')),
@@ -126,3 +129,18 @@ CREATE INDEX IF NOT EXISTS idx_builds_author ON builds(author_id);
 CREATE INDEX IF NOT EXISTS idx_builds_ship_id ON builds(ship_id);
 CREATE INDEX IF NOT EXISTS idx_build_tags_build ON build_tags(build_id);
 CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_builds_premium ON builds(is_premium);
+
+-- Page content (editable via admin)
+CREATE TABLE IF NOT EXISTS page_content (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    page_slug TEXT NOT NULL,
+    section_key TEXT NOT NULL,
+    title TEXT,
+    body TEXT NOT NULL,
+    display_order INTEGER DEFAULT 0,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_by INTEGER,
+    UNIQUE(page_slug, section_key),
+    FOREIGN KEY (updated_by) REFERENCES users(id)
+);
